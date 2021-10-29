@@ -26,3 +26,5 @@ scripts should look like this :
 "install": "cd server && npm i && cd ../client && npm i",
 "build": "cd client && npm run build"
 ```
+
+npx kill-port 3000
