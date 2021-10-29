@@ -1,4 +1,4 @@
-/* const jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 
 // set token secret and expiration date
 const secret = "mysecretsshhhhh";
@@ -37,9 +37,8 @@ module.exports = {
     return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
   },
 };
- */
 
-const jwt = require("jsonwebtoken");
+/* const jwt = require("jsonwebtoken");
 
 const secret = "mysecretssshhhhhhh";
 const expiration = "2h";
@@ -49,4 +48,4 @@ module.exports = {
     const payload = { email, username, _id };
     return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
   },
-};
+}; */
