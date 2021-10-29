@@ -5,18 +5,18 @@ const { signToken } = require("../utils/auth");
 const resolvers = {
   Query: {
     users: async () => {
-      return User.find().populate("book");
+      return User.find().populate("savedBooks");
     },
     user: async (parent, { username }) => {
-      return User.findOne({ username }).populate("books");
+      return User.findOne({ username }).populate("savedBooks");
     },
-    books: async (parent, { username }) => {
+    savedBooks: async (parent, { username }) => {
       const params = username ? { username } : {};
       return Book.find(params).sort({ createdAt: -1 });
     },
-    book: async (parent, { bookId }) => {
+    /* book: async (parent, { bookId }) => {
       return Book.findOne({ _id: bookId });
-    },
+    }, */
   },
 
   Mutation: {
@@ -30,7 +30,7 @@ const resolvers = {
     },
   },
 
-  login: async (parent, { email, password }) => {
+  /* login: async (parent, { email, password }) => {
     // Look up the user by the provided email address. Since the `email` field is unique, we know that only one person will exist with that email
     const user = await User.findOne({ email });
 
@@ -52,6 +52,13 @@ const resolvers = {
 
     // Return an `Auth` object that consists of the signed token and user's information
     return { token, user };
-  },
+  }, */
+
+  /* me: async (parent, args, context) => {
+    if (context.user) {
+      return User.findOne({ _id: context.user._id }).populate("savedBooks");
+    }
+    throw new AuthenticationError("You need to be logged in!");
+  }, */
 };
 module.exports = resolvers;
