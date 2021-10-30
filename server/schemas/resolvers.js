@@ -58,6 +58,12 @@ const resolvers = {
       // Return an `Auth` object that consists of the signed token and user's information
       return { token, user };
     },
+    /* me: async (parent, args, context) => {
+      if (context.user) {
+        return User.findOne({ _id: context.user._id }).populate("savedBooks");
+      }
+      throw new AuthenticationError("You need to be logged in!");
+    }, */
   },
 };
 module.exports = resolvers;
