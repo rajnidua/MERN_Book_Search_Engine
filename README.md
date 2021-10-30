@@ -28,3 +28,81 @@ scripts should look like this :
 ```
 
 npx kill-port 3000
+
+````md
+Mutation (for logging in)
+mutation Login($email: String!, $password:String!) {
+  login(email: $email, password:$password){
+user {
+email
+password
+}
+}
+}
+
+query variable
+
+```md
+{
+"email": "mkanatalexander@techfriends.dev",
+"password": "password02"
+}
+```
+````
+
+Result
+
+```md
+{
+"data": {
+"login": {
+"user": {
+"email": "mkanatalexander@techfriends.dev",
+"password": "$2b$10$BN48OB/mtfpSJJ8bVkq7BOB.mMybOAj6hyMd.L/p8I8uRfiu1gLda"
+}
+}
+}
+}
+```
+
+```
+
+```
+
+#Sign-up mutation
+
+```md
+mutation AddUser($username: String!, $email: String!, $password: String!) {
+  addUser(username:$username,email: $email, password:$password){
+user {
+username
+email
+password
+}
+}
+}
+```
+
+```md
+query variables
+{
+"username":"abcd",
+"email": "abcd@abcd.com",
+"password": "12345678"
+}
+```
+
+```md
+Result
+{
+"data": {
+"addUser": {
+"user": {
+"username": "abcd",
+"email": "abcd@abcd.com",
+"password": "$2b$10$YhKCqDq66xOudOzjGlUuZu/2yiLv8kcxqfVMOosBYN/PE8adAYmoW"
+}
+}
+}
+}
+```
