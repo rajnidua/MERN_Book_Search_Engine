@@ -4,27 +4,10 @@ const { signToken } = require("../utils/auth");
 
 const resolvers = {
   Query: {
-    /* users: async () => {
-      return User.find().populate("savedBooks");
-    }, */
     user: async (parent, { username }) => {
       return User.findOne({ username }).populate("savedBooks");
     },
-    /* books: async (parent, { authors }) => {
-      return Book.findOne({ authors }).populate("books");
-    }, */
 
-    /*  books: async (parent, { bookId }) => {
-      return Book.findOne({ _id: bookId }); */
-
-    /*  books: async (_, { title }, { Book }) => {
-      const params = title ? { title } : {};
-      return Book.find(params); 
-    },*/
-    /*  savedBooks: async (parent, { username }) => {
-      const params = username ? { username } : {};
-      return Book.find(params).sort({ createdAt: -1 });
-    },*/
     me: async (parent, args, context) => {
       if (context.user) {
         return User.findOne({ _id: context.user._id }).populate("savedBooks");
@@ -82,7 +65,7 @@ const resolvers = {
       );
     }, */
 
-    saveBook: async (parent, { input }, context) => {
+    /* saveBook: async (parent, { input }, context) => {
       if (context.user) {
         const updatedUser = await User.findOneAndUpdate(
           { _id: context.user._id },
@@ -92,7 +75,7 @@ const resolvers = {
         return updatedUser;
       }
       throw new AuthenticationError("You need to be logged in!");
-    },
+    }, */
   },
 };
 module.exports = resolvers;
