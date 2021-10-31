@@ -65,7 +65,7 @@ const resolvers = {
       );
     }, */
 
-    /* saveBook: async (parent, { input }, context) => {
+    saveBook: async (parent, { input }, context) => {
       if (context.user) {
         const updatedUser = await User.findOneAndUpdate(
           { _id: context.user._id },
@@ -75,7 +75,7 @@ const resolvers = {
         return updatedUser;
       }
       throw new AuthenticationError("You need to be logged in!");
-    }, */
+    },
   },
 };
 module.exports = resolvers;
