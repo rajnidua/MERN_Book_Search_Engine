@@ -4,25 +4,33 @@ const { signToken } = require("../utils/auth");
 
 const resolvers = {
   Query: {
-    users: async () => {
+    /* users: async () => {
       return User.find().populate("savedBooks");
-    },
+    }, */
     user: async (parent, { username }) => {
       return User.findOne({ username }).populate("savedBooks");
     },
-    savedBooks: async (parent, { username }) => {
+    /* books: async (parent, { authors }) => {
+      return Book.findOne({ authors }).populate("books");
+    }, */
+
+    /*  books: async (parent, { bookId }) => {
+      return Book.findOne({ _id: bookId }); */
+
+    /*  books: async (_, { title }, { Book }) => {
+      const params = title ? { title } : {};
+      return Book.find(params); 
+    },*/
+    /*  savedBooks: async (parent, { username }) => {
       const params = username ? { username } : {};
       return Book.find(params).sort({ createdAt: -1 });
-    },
+    },*/
     me: async (parent, args, context) => {
       if (context.user) {
         return User.findOne({ _id: context.user._id }).populate("savedBooks");
       }
       throw new AuthenticationError("You need to be logged in!");
     },
-    /* book: async (parent, { bookId }) => {
-      return Book.findOne({ _id: bookId });
-    }, */
   },
 
   Mutation: {
@@ -60,12 +68,31 @@ const resolvers = {
       // Return an `Auth` object that consists of the signed token and user's information
       return { token, user };
     },
-    /* me: async (parent, args, context) => {
+
+    /* addBook: async (parent, { _id, book }) => {
+      return User.findOneAndUpdate(
+        { _id: context.user._id },
+        {
+          $addToSet: { savedBooks: book },
+        },
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
+    }, */
+
+    saveBook: async (parent, { input }, context) => {
       if (context.user) {
-        return User.findOne({ _id: context.user._id }).populate("savedBooks");
+        const updatedUser = await User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $addToSet: { savedBooks: input } },
+          { new: true, runValidators: true }
+        );
+        return updatedUser;
       }
       throw new AuthenticationError("You need to be logged in!");
-    }, */
+    },
   },
 };
 module.exports = resolvers;
