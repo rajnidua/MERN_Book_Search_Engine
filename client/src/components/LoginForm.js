@@ -32,17 +32,12 @@ const LoginForm = () => {
     console.log("%%%%%%%%" + userFormData.email);
     console.log("%%%%%%%%" + userFormData.password);
     try {
-      const { response } = await loginUser({ variables: { ...userFormData } });
+      //putting data instead of response because we want data from response
+      //response has one attribute on it named data
+      const { data } = await loginUser({ variables: { ...userFormData } });
+      console.log(data);
 
-      console.log("&&&&&&&&&" + response);
-      /* if (!response.ok) {
-        throw new Error("something went wrongggg!");
-      } */
-      Auth.login(response.login.token);
-      //const { token, user } = await response.json();
-      console.log("************" + response.login.token);
-      //console.log("######" + token);
-      //Auth.login(token);
+      Auth.login(data.login.token);
     } catch (err) {
       console.error(err);
       setShowAlert(true);
