@@ -7,15 +7,12 @@ export const LOGIN_USER = gql`
       user {
         _id
         username
-        savedBooks {
-          bookId
-        }
       }
     }
   }
 `;
 
-export const SAVE_BOOK = gql`
+/* export const SAVE_BOOK = gql`
   mutation saveBook($book: BookInput!) {
     saveBook(book: $book) {
       _id
@@ -26,4 +23,4 @@ export const SAVE_BOOK = gql`
       }
     }
   }
-`;
+`; */
