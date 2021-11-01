@@ -36,7 +36,7 @@ const LoginForm = () => {
       //response has one attribute on it named data
       const { data } = await loginUser({ variables: { ...userFormData } });
       console.log(data);
-
+      //send the token to backend
       Auth.login(data.login.token);
     } catch (err) {
       console.error(err);
