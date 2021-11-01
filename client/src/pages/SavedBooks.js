@@ -17,8 +17,14 @@ import { GET_ME } from "../utils/queries";
 //import { removeBookId } from "../utils/localStorage";
 
 const SavedBooks = () => {
+  const [userData, setUserData] = useState({});
+
   const { loading, data } = useQuery(GET_ME);
-  const userData = data?.me || [];
+  console.log("user data initial " + userData);
+  setUserData(data?.me || []);
+  console.log("data: " + data);
+  console.log("data: " + loading);
+  console.log("user data new " + userData);
 
   const [removeBook, { error }] = useMutation(REMOVE_BOOK);
   /*  const [userData, setUserData] = useState({});
@@ -81,10 +87,10 @@ const SavedBooks = () => {
   if (!loading) {
     return <h2>LOADING...</h2>;
   }
-  console.log("UserData" + userData);
+  console.log("UserData :" + userData);
   // sync localStorage with what was returned from the userData query
-  const savedBookIds = userData.savedBooks.map((book) => book.bookId);
-  saveBookIds(savedBookIds);
+  /* const savedBookIds = userData.savedBooks.map((book) => book.bookId);
+  saveBookIds(savedBookIds); */
 
   return (
     <>
