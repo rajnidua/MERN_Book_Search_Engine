@@ -68,16 +68,22 @@ const resolvers = {
       );
     }, */
 
-    saveBook: async (parent, { book }, context) => {
-      if (context.user) {
-        const user = await User.findOneAndUpdate(
-          { _id: context.user._id },
-          { $addToSet: { savedBooks: book } },
-          { new: true, runValidators: true }
-        );
-        return user;
+    saveBook: async (parent, { myBook }, context) => {
+      console.log("context is:");
+      console.log(context);
+      try {
+        if (context.user) {
+          const user = await User.findOneAndUpdate(
+            { _id: context.user._id },
+            { $addToSet: { savedBooks: myBook } },
+            { new: true, runValidators: true }
+          );
+          return user;
+        }
+      } catch (err) {
+        console.log(err);
+        throw new AuthenticationError("An unexpected error occured");
       }
-      throw new AuthenticationError("You need to be logged in!");
     },
 
     removeBook: async (parent, { bookId }, context) => {
