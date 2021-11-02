@@ -14,16 +14,6 @@ const resolvers = {
         return User.findOne({ _id: context.user._id }).populate("savedBooks");
       }
     },
-
-    /* me: async (parent, args, context) => {
-      console.log("Value of Context from ME query");
-      console.log(context);
-      alert(context);
-      if (context.user) {
-        return User.findOne({ _id: context.user._id }).populate("savedBooks");
-      }
-      throw new AuthenticationError("You need to be logged in!");
-    }, */
   },
 
   Mutation: {
@@ -61,19 +51,6 @@ const resolvers = {
       // Return an `Auth` object that consists of the signed token and user's information
       return { token, user };
     },
-
-    /* addBook: async (parent, { _id, book }) => {
-      return User.findOneAndUpdate(
-        { _id: context.user._id },
-        {
-          $addToSet: { savedBooks: book },
-        },
-        {
-          new: true,
-          runValidators: true,
-        }
-      );
-    }, */
 
     saveBook: async (parent, { myBook }, context) => {
       console.log("context is:");
