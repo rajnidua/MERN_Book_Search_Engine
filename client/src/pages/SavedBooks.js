@@ -14,11 +14,19 @@ import Auth from "../utils/auth";
 import { removeBookId } from "../utils/localStorage";
 
 const SavedBooks = () => {
+  const [userData, setUserData] = useState({});
+
+  // use this to determine if state needs to be updated from GET_ME query
+  const userDataLength = Object.keys(userData).length;
+
   const { loading, data } = useQuery(GET_ME);
-  // eslint-disable-next-line no-unused-vars
-  const [removeBook, { error, book }] = useMutation(REMOVE_BOOK);
-  // use this to determine if `useEffect()` hook needs to run again
-  let userData = data?.me || {};
+  console.log(data);
+
+  if (!userDataLength && !loading) {
+    setUserData(data.me);
+  }
+
+  const [removeBook] = useMutation(REMOVE_BOOK);
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId) => {
@@ -30,8 +38,8 @@ const SavedBooks = () => {
 
     try {
       const { data } = await removeBook({ variables: { bookId } });
-
-      userData = data;
+      const updatedUser = data.removeBook;
+      setUserData(updatedUser);
       // upon success, remove book's id from localStorage
       removeBookId(bookId);
     } catch (err) {
