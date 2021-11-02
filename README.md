@@ -1,5 +1,29 @@
 # MERN_Book_Search_Engine
 
+This app allows you to search for new books, create a list of searched books to purchase.
+
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+
+# Overview
+
+```md
+Setting up an Apollo Server to use GraphQL queries and mutations to fetch and modify data, replacing the existing RESTful API.
+
+Modifying the existing authentication middleware so that it works in the context of a GraphQL API.
+
+Creating an Apollo Provider so that requests can communicate with an Apollo Server.
+
+Deploying your application to Heroku with a MongoDB database using MongoDB Atlas.
+```
+
+# Deployed App
+
+https://aqueous-taiga-47604.herokuapp.com/
+
+![](./workingApp1.gif)
+
+![](./workingApp2.gif)
+
 # Installations
 
 npm install
@@ -10,7 +34,7 @@ keep separate terminals for all
 
 mongod
 
-cd client > npm run build
+cd client > npm run build//for production
 
 npm run deploy
 
@@ -106,3 +130,11 @@ Result
 }
 }
 ```
+
+## License
+
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+
+&copy; 2021 Rajni Dua
+
+_Licensed under [MIT](./license)_
