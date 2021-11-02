@@ -8,15 +8,22 @@ const resolvers = {
       return User.findOne({ username }).populate("savedBooks");
     },
 
-    me: async (parent, args, context) => {
-      console.log("Value of Context");
+    me: async (_, __, context) => {
+      console.log(context.user);
+      if (context.user) {
+        return User.findOne({ _id: context.user._id }).populate("savedBooks");
+      }
+    },
+
+    /* me: async (parent, args, context) => {
+      console.log("Value of Context from ME query");
       console.log(context);
       alert(context);
       if (context.user) {
         return User.findOne({ _id: context.user._id }).populate("savedBooks");
       }
       throw new AuthenticationError("You need to be logged in!");
-    },
+    }, */
   },
 
   Mutation: {

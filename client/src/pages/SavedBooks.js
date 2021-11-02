@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useQuery, useMutation } from "@apollo/client";
 import {
   Jumbotron,
   Container,
@@ -6,24 +7,26 @@ import {
   Card,
   Button,
 } from "react-bootstrap";
-import { useQuery, useMutation } from "@apollo/client";
-import { REMOVE_BOOK } from "../utils/mutations";
+
 import { GET_ME } from "../utils/queries";
+import { REMOVE_BOOK } from "../utils/mutations";
 import Auth from "../utils/auth";
 import { removeBookId } from "../utils/localStorage";
 
 const SavedBooks = () => {
-  // get My data
   const [userData, setUserData] = useState({});
-  const { data } = useQuery(GET_ME, {
-    onCompleted: () => {
-      setUserData(data.me);
-    },
-  });
 
+  // use this to determine if state needs to be updated from GET_ME query
   const userDataLength = Object.keys(userData).length;
 
-  const [removeBook, { error }] = useMutation(REMOVE_BOOK);
+  const { loading, data } = useQuery(GET_ME);
+  console.log(data);
+
+  if (!userDataLength && !loading) {
+    setUserData(data.me);
+  }
+
+  const [removeBook] = useMutation(REMOVE_BOOK);
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId) => {
@@ -34,24 +37,16 @@ const SavedBooks = () => {
     }
 
     try {
-      const updatedData = await removeBook({
-        variables: { bookId: bookId },
-      });
-      // console.log(bookId);
-      if (error) {
-        throw new Error("something went wrong!");
-      }
-      setUserData(updatedData.data.removeBook);
+      const { data } = await removeBook({ variables: { bookId } });
+      const updatedUser = data.removeBook;
+      setUserData(updatedUser);
+      // upon success, remove book's id from localStorage
       removeBookId(bookId);
     } catch (err) {
       console.error(err);
     }
   };
-  const token = Auth.loggedIn() ? Auth.getToken() : null;
 
-  if (!token) {
-    return <h2>Please login first</h2>;
-  }
   // if data isn't here yet, say so
   if (!userDataLength) {
     return <h2>LOADING...</h2>;
@@ -66,7 +61,7 @@ const SavedBooks = () => {
       </Jumbotron>
       <Container>
         <h2>
-          {userDataLength
+          {userData.savedBooks.length
             ? `Viewing ${userData.savedBooks.length} saved ${
                 userData.savedBooks.length === 1 ? "book" : "books"
               }:`
@@ -86,11 +81,6 @@ const SavedBooks = () => {
                 <Card.Body>
                   <Card.Title>{book.title}</Card.Title>
                   <p className="small">Authors: {book.authors}</p>
-                  {book.link && (
-                    <Card.Link href={book.link}>
-                      See it on Google Books
-                    </Card.Link>
-                  )}
                   <Card.Text>{book.description}</Card.Text>
                   <Button
                     className="btn-block btn-danger"
