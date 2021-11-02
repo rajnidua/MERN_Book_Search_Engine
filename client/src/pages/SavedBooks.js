@@ -22,7 +22,7 @@ const SavedBooks = () => {
   const { loading, data } = useQuery(GET_ME);
   console.log(data);
 
-  if (!userDataLength && !loading) {
+  if (userDataLength === 0 && !loading) {
     setUserData(data.me);
   }
 
@@ -48,7 +48,7 @@ const SavedBooks = () => {
   };
 
   // if data isn't here yet, say so
-  if (loading) {
+  if (!userDataLength) {
     return <h2>LOADING...</h2>;
   }
 
